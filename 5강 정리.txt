@@ -17,8 +17,19 @@ a = [1,2,3] #1은 인덱스넘버가 0, 2는 1, 3은 2
 정렬 : a.sort() #4,2,5 -> 2,4,5
 뒤집기 : a.revere() : 값들 뒤집기 #5,4,3 -> 3,4,5로
 전부 삭제 : a.clear()
-합치기 : a.extend(b) #a에 b를 합침
+합치기 : a.extend(b) #a에 b를 합침 + 도 가능 단, 순서 주의
 zip, enumerate
+
+
+name=['a','b']
+value =[1,2]
+for n,v in zip(name, value) :
+    print(n,v)                  a 1  b 2
+
+item = ['a','v','c']
+for i in enumerate(item) :
+    print(i)                    0 a  1 v  2 c
+
 
 *특징
 리스트는 문자열, 숫자열 혼용해서 값을 가질 수 있다
