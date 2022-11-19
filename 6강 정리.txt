@@ -1,0 +1,127 @@
+<조건문, 반복문>
+1. if
+: 조건을 붙이는 거
+if 조건 : 
+   실행명령문
+weather = "비"
+
+if weather == "비": # = 은 2번!! 그냥 = 는 대입임!
+    print("우산을 챙기세요")
+
+if는 elif,else와 함께 씀 중첩도 가능하다
+elif는 여러번 사용할 수 있다. 그러나 if와 else는 한번만 사용가능! 
+if는 반드시 써주어야 하며 elif와 else는 생략가능하다
+
+weather = "맑아요"
+
+if weather == "비": #if weather == "비" or weather =="눈" 처럼 다중조건 걸 수도 있음(and, xor, or)
+    print("우산을 챙기세요")
+elif weather == "미세먼지":
+    print("마스크를 챙기세요")
+else:
+    print("준비물 필요 없어요")
+
+
+2. for
+: 반복문 ~~할 때까지 계속
+for 변수 in 반복대상:
+    실행 명령문1
+    실행 명령문2
+
+for waiting_no in [0, 1, 2, 3, 4]:
+    print("대기번호 : {0}".format(waiting_no))
+
+=>
+
+for waiting_no in range(5): 
+    print("대기번호 : {0}".format(waiting_no))
+
+예제
+starbucks = ["아이언맨", "토르", "아이엠 그루트"] # 손님 리스트
+for customer in starbucks:
+    print("{0}, 커피가 준비되었습니다".format(customer))
+
+
+*for 문을 이용해 리스트 변경하기
+a = ["a","b","c"]
+a_ = [i.upper() for i in a_]
+  ㄴ i는 반복대상인 a리스트에서 하나씩 값을 가져와 i라는 변수에 저장하고 i.upper()을 실행해 a_에 집어넣는다는 의미
+
+
+
+
+3. while
+: 반복문이지만 조건을 만족하지 않을 때 반복을 끝냄
+
+while 조건:
+    실행 명령문1
+    실행 명령문2
+    실행 명령문3
+
+customer = "토르" # 손님
+index = 5 # 부르는 횟수, 총 5회
+
+while index >= 1: # 부르는 횟수가 1 이상인 경우에만 반복 실행
+    print("{0}, 커피가 준비 되었습니다. {1} 번 남았어요.".format(customer, index))    
+    index -= 1 # 부르는 횟수 감소
+    if index == 0: # 5번 모두 불렀다면
+        print("커피는 폐기처분되었습니다.")
+-> index는 5부터 시작해서 print문 다음 하나씩 감소한다 (index-=1)
+-> 이 때문에 index가 0이 되면 while문이 끝나게 됨 (while조건이 false가 되어 탈출)
+-> 만약 while문을 작성했는데 증감문을 잘못써서 무한루프에 빠졌다면 Ctrl+c누르고 빠져나오기
+
+비슷한 것으로 do while문도 있음
+do:
+    task()
+while condition
+-> 무조건 수행문을 한번은 수행함 condition과 상관없이
+
+
+
+4. continue와 break
+*continue
+조건을 만족하는 경우만 제와하고 while, for문 실행
+bsent = [2, 5] # 결석한 학생 출석번호
+
+for student in range(1, 11): # 출석번호 1~10번
+    if student in absent: # 결석했으면 책을 읽지 않고 다음 학생으로 넘어가기
+        continue
+    print("{0}, 책을 읽어봐".format(student))
+
+
+*break
+조건을 만족하면 탈출
+
+for i in range(1,6) : 
+    print(i)
+    if i == 4 :
+        break
+i 4까지 출력하고 종료함
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,17 @@
+password = input()
+
+rule1 = password.replace(password[0:7],"")
+
+rule2 = rule1.find(".")
+password2 = rule1[:rule2]
+str(password2)
+rule2_1 = password2[:3]
+
+L=len(password2)
+L = str(L)
+
+C=password2.count("e")
+C=str(C)
+
+rule3 = rule2_1+L+C+"!"
+print(rule3)

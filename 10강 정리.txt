@@ -1,0 +1,113 @@
+<예외처리>
+1. 예외란
+에러를 말함 
+예외처리라는 건 이 에러를 처리할 방법을 작성하는 것 
+
+2. 사용법
+
+try:
+    실행 명령문1
+    실행 명령문2
+    ...
+except 에러 종류1:
+    예외 처리 명령문1
+    예외 처리 명령문2
+    ...
+except 에러 종류2:
+    예외 처리 명령문1
+    예외 처리 명령문2
+
+->에러종류는 터미널에 출력됨 그거보고 에러종류에 값 넣기
+
+try:
+    print("나누기 전용 계산기입니다.")
+    num1 = int(input("첫 번째 숫자를 입력하세요 : "))
+    num2 = int(input("두 번째 숫자를 입력하세요 : "))
+    print("{0} / {1} = {2}".format(num1, num2, int(num1/num2)))
+except ValueError (as V):
+    print("에러! 잘못된 값을 입력하였습니다.")
+    print(V)
+
+단, 모든 에러를 하나하나 다 처리하기 힘드므로 제일 최상위 에러처리인 Exception을 
+에러처리로 받아버릴 수도 있음
+-> 모든 에러를 잡지만 구체적으로 어떤 에러가 일어났는지는 파악하기 어려움
+
+3. 에러 의도적으로 발생시키기
+raise사용
+잘못된 내용을 입력하면 에러발생시켜서 주의주기
+
+try:
+    print("한 자리 숫자 나누기 전용 계산기입니다.")
+    num1 = int(input("첫 번째 숫자를 입력하세요: "))
+    num2 = int(input("두 번째 숫자를 입력하세요: "))
+    if num1 >= 10 or num2 >= 10: # 입력받은 수가 한 자리인지 확인
+        raise ValueError 
+    print("{0} / {1} = {2}".format(num1, num2, int(num1 / num2)))
+except ValueError:
+    print("잘못된 값을 입력하였습니다. 한 자리 숫자만 입력하세요.")
+
+-> 44번째줄에 raise ValueError발생시킴
+
+
+4. 사용자 정의 예외처리
+예외처리를 위한 클래스를 만드는 방법
+
+class BigNumberError(Exception): # 사용자 정의 에러
+    def __init__(self, msg):
+        self.msg = msg
+
+    def __str__(self):
+        return self.msg
+
+ -> 사용자 정의 에러를 만들고
+ -> main 작업에서 raise BigNumberError하면 Exception이라는 에러를 만들 수 있음
+ -> 에러메세지를 의미하는 msg를 전달받아서 멤버변수로 설정,
+ -> str()메소드에서 멤버변수 msg를 반환
+
+try:
+    print("한 자리 숫자 나누기 전용 계산기입니다.")
+    num1 = int(input("첫 번째 숫자를 입력하세요: "))
+    num2 = int(input("두 번째 숫자를 입력하세요: "))
+    if num1 >= 10 or num2 >= 10: # 입력받은 수가 한 자리인지 확인
+        raise BigNumberError("입력값 : {0}, {1}".format(num1, num2)) # 자세한 에러 메시지
+    print("{0} / {1} = {2}".format(num1, num2, int(num1 / num2)))
+except ValueError:
+    print("잘못된 값을 입력하였습니다. 한 자리 숫자만 입력하세요.")
+except BigNumberError as err:
+    print("에러가 발생하였습니다. 한 자리 숫자만 입력하세요.")
+    print(err) # 에러 메시지 출력
+
+-> 72번째 줄에서 msg를 집어넣음 
+-> 에러메세지 출력하면서 78번째 줄에서 입력값도 출력되도록
+
+
+
+5. finally
+에러발생 여부와 상관없이 마지막에 무조건 출력하는 내용을 넣을 때 사용
+finally: # 에러 발생 여부 상관 없이 항상 실행
+    print("계산기를 이용해 주셔서 감사합니다.")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

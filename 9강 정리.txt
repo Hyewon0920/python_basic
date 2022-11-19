@@ -1,0 +1,280 @@
+<클래스>
+: 틀이라고 생각하면 편함
+
+name = "마린" # 유닛의 이름
+hp = 40 # 유닛의 체력
+damage = 5 # 유닛의 공격력
+
+print("{} 유닛이 생성되었습니다.".format(name))
+print("체력 {0}, 공격력 {1}\n".format(hp, damage))
+
+=> 클래스로 만들어보면
+
+class Unit :
+    def __init__(self, name, hp, damage) :
+        self.name = name
+        self.hp = hp
+        self.damage = damage
+        print("{} 유닛이 생성되었습니다.".format(self.name))
+        print("체력 {0}, 공격력 {1}\n".format(self.hp, self.damage))
+
+-self를 꼭 적어주어야 함
+-self.name = name은 변수, 생성자를 처음 설정해주는 것
+-클래스 안에선 self.name이 쓰이고 클래스 밖에서 name을 설정해주고 싶으면 그 때 name에 해당하는 값 넣기
+-클래스는 서로 관련이 있는 변수 (멤버변수) 와 함수 (메소드) 들의 집합
+
+
+1. 생성자
+__init__ : 클래스 객체를 생성할 때 자동으로 호출되는 부분
+() 안의 생성자 수만큼 전달값을 전달해야 함
+
+
+2. 멤버변수
+클래스 내에 정의된 변수 self.과 함게 쓰임
+클래스 내에서 접근할 때는 self.과 함께 쓰면 되지만 클래스 외부에선
+객체이름. 과 같이 쓰면 됨
+
+wraith1 = Unit("레이스", 80, 5) # 체력 80, 공격력 5
+print("유닛 이름 : {0}, 공격력 : {1}".format(wraith1.name, wraith1.damage)) # 멤버변수 접근
+
+-> print구문에서 wraith1.name으로 접근함
+
+클래스 외부에서 새 변수를 추가할 수 있다. 
+wraith2 = Unit("빼앗은 레이스", 80, 5) : 여기까지는 클래스로 인스턴스만드는 것과 동일
+wraith2.cloaking = True 
+if wraith2.cloaking == True: # 클로킹 상태라면?
+    print("{0}는 현재 클로킹 상태입니다.".format(wraith2.name))
+->cloaking이라는 생성자를 처음쓰는 거지만 잘 출력이 됨
+
+반면 if wraith1.cloaking을 하면 갑자기 없던 것이 생겨서 에러뜸
+wraith1도 클로킹 기능을 쓸거면 wraith1.cloaking == True로 정의 먼저 해주기!
+
+
+3. 메소드
+함수임 단, 클래스 내부에 정의된 메소드는 변수가 해당 클래스에 관련되거나 자기자신과 관련될 때 self.~로 변수를 사용한다. 
+class AttackUnit:
+    ... # __init__() 생략 -> 앞에서 만든 unit클래스와 똑같이 만드셈
+        
+    def attack(self, location): # 전달 받은 방향으로 공격
+        print("{0} : {1} 방향으로 적군을 공격 합니다. [공격력 {2}]" \
+            .format(self.name, location, self.damage)) # 공간이 좁아서 2줄에 걸쳐 출력
+
+-> 로케이션은 매번 달라지므로 self.하지 않았음     
+
+
+     def damaged(self, damage): # damage 만큼 유닛 피해
+        print("{0} : {1} 데미지를 입었습니다.".format(self.name, damage)) # 데미지 정보 출력
+        self.hp -= damage # 유닛의 체력에서 전달받은 damage 만큼 감소
+        print("{0} : 현재 체력은 {1} 입니다.".format(self.name, self.hp)) # 남은 체력 출력
+        if self.hp <= 0: # 남은 체력이 0 이하이면?
+            print("{0} : 파괴되었습니다.".format(self.name)) # 유닛 파괴 처리
+
+
+self 는 자기 자신을 의미합니다. 생성자 또는 메소드에서 self 를 전달받는 것은 결국 자기 자신을 받는다는 의미이며 메소드 내에서 self. 를 쓰는 것은 자기 자신의 멤버 변수 또는 메소드에 접근하겠다는 의미가 됩니다.
+firebat1 은 AttackUnit 클래스의 인스턴스이며 코드상에서 객체를 생성할 때는 name, hp, damage 정보만 전달하지만 자동으로 호출되는 __init__() 생성자의 처음 위치에 있는 self 에 자기 자신을 전달하는 것과 같습니다.
+그래서 생성자 내에서 self.name = name 이라고 하는 것은 마치 firebat1.name = name 과 같은 동작이 되는 것입니다.
+
+
+5. 상속
+class 자식클래스(상속받을 부모클래스):
+
+일반유닛
+class Unit:
+    def __init__(self, name, hp):
+        self.name = name
+        self.hp = hp
+
+공격유닛
+class AttackUnit(Unit):  
+    def __init__(self, name, hp, damage):
+        Unit.__init__(self, name, hp)
+        self.damage = damage
+
+    def attack(self, location):
+        print("{0} : {1} 방향으로 적군을 공격 합니다. [공격력 {2}]" \
+            .format(self.name, location, self.damage))
+
+    def damaged(self, damage):
+        print("{0} : {1} 데미지를 입었습니다.".format(self.name, damage))
+        self.hp -= damage
+        print("{0} : 현재 체력은 {1} 입니다.".format(self.name, self.hp))
+        if self.hp <= 0:
+            print("{0} : 파괴되었습니다.".format(self.name))
+
+
+-> class AttackUnit(Unit) : 이부분이 Unit을 상속받은 부분
+하단에 self.~~를 하지 않고 Unit.__init__(self,name,hp)를 한 것은 
+Unit의 생성자인 self, name, hp를 가져오겠다고 선언, damage만 AttackUnit것이니 얘만 self.해줌
+
+이렇게 해도
+
+firebat1 = AttackUnit("파이어뱃", 50, 16) # 체력 50, 공격력 16
+firebat1.attack("5시") # 5시 방향으로 공격 명령
+
+# 공격 2번 받는다고 가정
+firebat1.damaged(25) # 남은 체력 25
+firebat1.damaged(25) # 남은 채력 0
+
+-> 잘 실행됨
+
+
+
+6. 다중상속
+class 자식클래스(부모클래스1, 부모클래스2, ...):
+만약 날 수 있는 유닛을 만들고 거기에 아까 만든 AttackUnit을 합친다면
+
+# 날 수 있는 기능을 가진 클래스
+class Flyable:
+    def __init__(self, flying_speed): # 공중 이동 속도
+        self.flying_speed = flying_speed
+
+    def fly(self, name, location): # 유닛 이름, 이동 방향
+        print("{0} : {1} 방향으로 날아갑니다. [속도 {2}]"\
+            .format(name, location, self.flying_speed))
+
+
+class FlyableAttackUnit(AttackUnit, Flyable):
+    def __init__(self, name, hp, damage, flying_speed): # 이름, 체력, 공격력, 공중 이동 속도
+        AttackUnit.__init__(self, name, hp, damage) # 이름, 체력, 공격력
+        Flyable.__init__(self, flying_speed) # 공중 이동 속도
+
+
+__init__을 정의할 때 상속을 받더라도 우선 def __init__()괄호 안에 다 적어주기
+상속을 받는다는건 얘를 새로 정의할 필요가 없단 뜻이지 ()안에 안적어주면 이 클래스에선 그 변수를 못쓰게됨
+단, 일일히 self.~~=~~할 필요없이 부모클래스.__init__(self, 부모클래스에서 상속받을 생성자) 하면끝남
+
+
+6. 메소드 오버라이딩
+부모클래스의 메소드를 자식이 같은 이름으로 새롭게 메소드를 정의하여 사용할 수 있음
+# 일반 유닛
+class Unit:
+    def __init__(self, name, hp, speed): # speed 추가
+        self.name = name
+        self.hp = hp
+        self.speed = speed # 지상 이동 속도
+
+    def move(self, location): # 이동 함수 정의
+        print("[지상 유닛 이동]")
+        print("{0} : {1} 방향으로 이동합니다. [속도 {2}]"\
+            .format(self.name, location, self.speed))
+
+-> 부모클래스를 고치면 자식도 영향을 받게됨 자식클래스에도 speed를 정의해줘야함
+
+# 공중 공격 유닛
+class FlyableAttackUnit(AttackUnit, Flyable):
+    def __init__(self, name, hp, damage, flying_speed):
+        AttackUnit.__init__(self, name, hp, 0, damage) # 지상 speed 0
+        Flyable.__init__(self, flying_speed)
+
+-> 공중공격유닛에 speed를 넣어주고 이를 0으로 설정 왜? 공중이니까 지상은 안내려옴
+-> 근데 지상은 move메소드를 공중은 fly메소드를 구분해서 쓰는게 번거로움
+-> FlyableAttackUnit : AttackUnit, Flyable을 상속받고 있고 AttackUnit은 Unit클래스를 상속받음
+    즉, FlyableAttackUnit도 Unit의 모든 내용을 가져갈 수 있음
+
+-> 163하단 클래스에
+ def move(self, location): # Unit 클래스의 move() 메소드를 새롭게 정의 (오버라이딩)
+        print("[공중 유닛 이동]")
+        self.fly(self.name, location)
+
+를 넣어주기
+move는 Unit의 move를 베껴서 그대로 박아넣음 그리고 FlyableAttackUnit은 Flyable
+을 상속받았으므로 이 클래스의 fly도 그대로 가져올 수 있음 
+만약 인스턴스를 만들때 생성자에 집어넣은 변수를 메소드에서 새로 변수정의할 필요없이 넣고싶다면
+self.변수를 ()안에 넣어주면 됨
+
+
+
+7. pass
+클래스는 우선적으로 만들어두지만 안에 내용은 채우고 싶지 않을 때 
+# 건물
+class BuildingUnit(Unit):
+    def __init__(self, name, hp, location):
+        pass
+
+안에 내용이 없더라도 자유롭게 상속할 수 있음
+
+
+8. super
+부모 클래스의 이름을 직접 적지 않고도 부모 클래스에 접근하는 방법
+단, super() 를 사용할 때는 self 를 작성하지 않음
+
+class BuildingUnit(Unit):
+    def __init__(self, name, hp, location):
+        super().__init__(name, hp, 0) # 부모 클래스 접근. self 없이 사용
+        self.location = location
+
+다중상속을 할 때 다중상속때처럼 부모1, 부모2를 하면 순서상 가장 먼저 상속받은 클래스에 접근함
+그래서 이땐 그냥 super못씀
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

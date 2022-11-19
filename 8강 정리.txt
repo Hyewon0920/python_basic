@@ -1,0 +1,168 @@
+<표준입출력>
+1. sep
+분리기호임
+print("Python", "Java", sep=",") # 값들을 콤마(,) 로 구분
+ ㄴ Python,Java 이렇게 ,사이에 스페이스 없이 출력 스페이스 주고 싶으면 " , " 하면됨
+
+
+
+2. end
+끝문장을 어떻게 끝낼 건지
+print("Python", "Java", sep=",", end="?")
+  ㄴ #Python,Java?
+
+
+3. stount, stderr
+stdout : 일반적으로 수정사항 등을 기록하는 로그
+stderr : 에러 발생 시 관련 내용을 출력하는데 치중
+
+
+4. ljust(), rjust()
+출력할 때 공간을 띄우고 싶을 때
+ljust(8) : 왼쪽의 문자로부터 8칸을 띄워라
+rjust(4) : 4칸의 공간을 확보하고 맨오른쪽부터 채워라
+
+scores = {"수학":0, "영어":50, "코딩":100}
+
+for subject, score in scores.items():
+    print(subject.ljust(8), str(score).rjust(4), sep=":")
+
+수학      :   0
+영어      :  50
+코딩      : 100
+
+
+5.zfill()
+ljust는 스페이스를 띄워준다면 얘는 남은자리만큼 0을 채워줌
+  ㄴ zfill(3) -> 001, 013, 101
+
+
+
+6. input
+원하는 문자열을 받고 싶을 때 
+password = input()
+
+
+
+
+<파일입출력>
+프로그래밍에서 파일을 다룰 때는 일반적으로
+1. 파일을 열고
+2. 파일에 어떤 내용을 쓰거나 읽고
+3. 파일을 닫는
+순서로 진행
+
+1. 파일열기 및 닫기
+open() 
+open("파일명", "열기 모드", encoding="인코딩")
+  ㄴ 인코딩은 보통 utf8로 통일
+  ㄴ 열기모드에서 read(읽기)는 r, 쓰기는 w, 이어쓰기는 a가 있음
+
+score_file = open("score.txt", "w", encoding="utf8") # score.txt 파일을 쓰기("w") 모드로 열기
+print("수학 : 0", file=score_file) # score.txt 파일에 내용 쓰기
+print("영어 : 50", file=score_file) # score.txt 파일에 내용 쓰기
+score_file.close() # score.txt 파일 닫기
+
+-> 쓴 다음에는 항상 close로 파일 닫아주기!
+
+
+
+2. 줄바꿈
+end =""
+score_file = open("score.txt", "r", encoding="utf8")
+print(score_file.readline(), end="") # 줄별로 읽기. 한 줄 읽고 커서는 다음 줄로 이동
+->이때도 close꼭 쓰기!
+->여러줄을 줄바꿈 하고 싶을 때 end=""를 계속 써주기!
+
+
+
+3. 몇줄로 구성되어있는가
+readline()
+while문을 이용하면 끝 줄까지 읽을 수 있음
+
+score_file = open("score.txt", "r", encoding="utf8")
+
+while True:
+    line = score_file.readline()
+    if not line: # 더 이상 읽어올 내용이 없으면?
+        break # 반복문 탈출
+    print(line, end="") # 읽어온 줄 출력. 줄바꿈 중복을 방지하기 위해 end="" 처리
+    
+score_file.close()
+
+-> 파일을 오픈하고 line으로 한줄씩 읽어들인다
+-> True라고 조건을 걸어놨기 때문에 무한루프
+-> 그러나 if not line(라인이 없으면) 이라는 조건으로 break을 걸어놨기 때문에 
+-> 라인이 더 없으면 빠져나와서 close()함
+
+
+score_file = open("score.txt", "r", encoding="utf8")
+
+lines = score_file.readline()
+for i in lines :
+    print(i, end="")
+
+score_file.close()
+-> 혹은 lines를 for문을 돌려서 반복, 읽게 할 수 있음
+
+
+
+1. pickle
+: 리스트 데이터를 또 사용하고 싶을 때
+: 프로그램에서 사용하고 있는 데이터를 파일 형태로 저장, 불러올 수 있게 함
+
+*사용법
+dump(저장할 데이터, 저장할 파일)
+import 해줘야 됨
+저장할 파일도 open()으로 열어줘야됨, 수정하는거니까 w를 모드로 적되, 만약 파일의 형태가 바이너리면 wb로 적어줘야함
+
+import pickle # pickle 모듈 가져다 쓰기
+
+profile_file = open("profile.pickle", "wb") # 바이너리(binary) 형태로 저장
+profile = {"이름":"박명수", "나이":30, "취미":["축구", "골프", "코딩"]}
+print(profile)
+
+pickle.dump(profile, profile_file) # profile 데이터를 file 에 저장
+profile_file.close()
+
+사용하려는 모듈(pickle)과 동일한 이름의 파일은 쓰지 않기!
+
+
+2. load
+:파일을 새로운 파일로 복사
+profile = pickle.load(profile_file) # file 에 있는 정보를 불러와서 profile 에 저장
+print(profile)
+
+
+3. with
+with 작업 as 변수명:
+    실행 명령문1
+    실행 명령문2
+    
+-> 이렇게 하면 close()를 안해도 됨!
+
+with open("study.txt", "w", encoding="utf8") as study_file:
+    study_file.write("파이썬을 열심히 공부하고 있어요")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

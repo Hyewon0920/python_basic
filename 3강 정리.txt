@@ -1,0 +1,74 @@
+<연산자>
+
+1. 기본연산자
++ : 더하기
+- : 빼기
+* : 곱하기
+/ : 나누기
+-print문에서 바로 연산해서 출력가능
+  ㄴprint(3+5)하면 8출력
+
+2. 복잡한 연산자
+** : 제곱
+% : 나머지만 출력
+// : 정수몫 출력
+
+3. 등호, 비교
+> : ~보다 크다
+>= : ~보다 크거나 같다
+< : ~보다 작다
+<= : ~보다 작거나 같다
+== : 같다
+!= : 다르다
+-> 이들은 반환값으로 boolean형을 반환(true, false)
+
+4. 논리 연산
+and : 그리고 a and b했을때 
+  ㄴ 조건 a가 true, 조건 b가 true면 true반환
+  ㄴ 조건 a가 true, 조건 b가 false면 false반환
+  ㄴ 조건 a가 false, 조건 b가 true면 false반환
+  ㄴ 조건 a가 false, 조건 b가 false면 false반환
+or : 이거나 a or b 했을 때
+  ㄴ 조건 a가 true, 조건 b가 true면 true반환
+  ㄴ 조건 a가 true, 조건 b가 false면 true반환
+  ㄴ 조건 a가 false, 조건 b가 true면 true반환
+  ㄴ 조건 a가 false, 조건 b가 false면 false반환
+not : ~의 반대
+  ㄴ print(3<5)면 true이므로 true 반환 하지만 print(not(3<5))면 true의 not이므로 false반환
+a>b>c : a > b and b>c로 작동함 a>b가 true, b>c가 true면 true!
+
+5. 생략된 연산자
+a+=b : a = a+b라는 뜻 (-=,*=,/= ...전부 다 마찬가지)
+
+6. 변수를 이용한 연산
+-2+4*6 = 26 #36이 아님!
+-number = 2*4=3
+-print(number) -> 11출력
+-number+2
+-print(number) -> 13출력
+변수는 계속 재할용 가능하다!!
+
+<연산함수>
+1. 숫자처리 함수
+abs : 절대값 (abs(-5) -> 5)
+pow : 제곱   (pow(5)  -> 25)
+max : 최대값 (max(2,6,8) -> 8)
+min : 최소값 (min(2,6,8)  -> 2)
+round : 반올림 (round(3.1467,2) -> 3.1) #2는 두번쨰 자리에서 반올림하라는 뜻
+floor : 내림
+ceil : 올림
+sqrt : 제곱근
+
+=> 모듈을 이용해 사용가능하다. 
+모듈이란? 유용한 기능을 모아둔 파이썬 파일
+from 모듈이름 import 사용할 함수이름 등 무언가
+  ㄴ from math import * : math모듈에 있는 모든 기능을 전부 다 쓰겠다는 의미
+import 모듈이름
+  ㄴ이 경우에는 print(math.floor(3.14)) 처럼 .을 반드시 찍어주어야 함
+  
+2. 랜덤함수
+import random을 사용해 쓸 수 있음
+  ㄴ random이 랜덤함수임
+함수들은 뒤에 ()가 붙음 random()처럼
+randrange(1,6)하면 1에서부터 6미만의 숫자 중 정수를 랜덤으로 출력
+randint(1,6)은  1에서부터 6까지의 숫자 중 정수를 랜덤으로 출력
